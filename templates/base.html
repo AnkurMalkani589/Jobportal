@@ -144,12 +144,12 @@
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ms-auto align-items-center">
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ url_for('auth.login') }}">
+                        <a class="nav-link nav-link-mobile" href="{{ url_for('auth.login') }}">
                             <i class="bi bi-box-arrow-in-right me-1"></i>Login
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link btn btn-light text-primary ms-2 px-3" href="{{ url_for('auth.register') }}">
+                        <a class="nav-link nav-link-mobile btn-register" href="{{ url_for('auth.register') }}">
                             <i class="bi bi-person-plus me-1"></i>Register
                         </a>
                     </li>
@@ -157,6 +157,38 @@
             </div>
         </div>
     </nav>
+    
+    <style>
+    /* Mobile navbar button styles - inline for override */
+    @media (max-width: 991.98px) {
+        .navbar-dark .navbar-nav .nav-link-mobile {
+            color: #4f46e5 !important;
+            background: #ffffff;
+            border: 1px solid #e2e8f0;
+            border-radius: 6px;
+            margin-bottom: 8px;
+            padding: 12px 16px !important;
+            font-weight: 500;
+        }
+        
+        .navbar-dark .navbar-nav .nav-link-mobile:active {
+            background: #eef2ff !important;
+            color: #4f46e5 !important;
+        }
+        
+        .navbar-dark .navbar-nav .btn-register {
+            background: #ffffff !important;
+            color: #4f46e5 !important;
+            border: 2px solid #4f46e5 !important;
+            font-weight: 600;
+        }
+        
+        .navbar-dark .navbar-nav .btn-register:active {
+            background: #4f46e5 !important;
+            color: #ffffff !important;
+        }
+    }
+    </style>
     
     <main class="auth-wrapper">
         {% block auth_content %}{% endblock %}
