@@ -140,16 +140,15 @@
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
-            
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <div class="nav-auth-container">
-                    <a class="nav-btn nav-btn-login" href="{{ url_for('auth.login') }}">
-                        <i class="bi bi-box-arrow-in-right me-1"></i>Login
-                    </a>
-                    <a class="nav-btn nav-btn-register" href="{{ url_for('auth.register') }}">
-                        <i class="bi bi-person-plus me-1"></i>Register
-                    </a>
-                </div>
+        </div>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <div class="nav-auth-container">
+                <a class="nav-btn nav-btn-login" href="{{ url_for('auth.login') }}">
+                    <i class="bi bi-box-arrow-in-right me-1"></i>Login
+                </a>
+                <a class="nav-btn nav-btn-register" href="{{ url_for('auth.register') }}">
+                    <i class="bi bi-person-plus me-1"></i>Register
+                </a>
             </div>
         </div>
     </nav>
@@ -179,8 +178,8 @@
     
     /* Login Button */
     .nav-btn-login {
-        background: transparent;
-        color: #ffffff;
+        background: #ffffff;
+        color: #4f46e5;
         border: 2px solid rgba(255, 255, 255, 0.3);
     }
     
