@@ -1,0 +1,140 @@
+{% extends "base.html" %}
+
+{% block content %}
+<!-- Page Header -->
+<div class="page-header">
+    <h1><i class="bi bi-file-earmark-text"></i>Applications</h1>
+    <div class="page-actions">
+        <a href="{{ url_for('employer.applications') }}" class="btn btn-sm btn-outline-secondary {% if not request.args.get('status') %}active{% endif %}">All</a>
+        <a href="{{ url_for('employer.applications', status='pending') }}" class="btn btn-sm btn-outline-warning {% if request.args.get('status') == 'pending' %}active{% endif %}">Pending</a>
+        <a href="{{ url_for('employer.applications', status='reviewed') }}" class="btn btn-sm btn-outline-info {% if request.args.get('status') == 'reviewed' %}active{% endif %}">Reviewed</a>
+        <a href="{{ url_for('employer.applications', status='accepted') }}" class="btn btn-sm btn-outline-success {% if request.args.get('status') == 'accepted' %}active{% endif %}">Accepted</a>
+        <a href="{{ url_for('employer.applications', status='rejected') }}" class="btn btn-sm btn-outline-danger {% if request.args.get('status') == 'rejected' %}active{% endif %}">Rejected</a>
+    </div>
+</div>
+
+<!-- Applications Table -->
+<div class="dashboard-card">
+    <div class="card-body p-0">
+        {% if applications and applications.items %}
+            <div class="table-responsive">
+                <table class="table mb-0">
+                    <thead>
+                        <tr>
+                            <th>Applicant</th>
+                            <th>Job</th>
+                            <th>Status</th>
+                            <th>Applied Date</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for app in applications.items %}
+                            <tr>
+                                <td>
+                                    <div class="d-flex align-items-center">
+                                        <div class="avatar bg-primary-subtle text-primary me-3">
+                                            {{ app.jobseeker.name[:2].upper() }}
+                                        </div>
+                                        <div>
+                                            <div class="fw-medium">{{ app.jobseeker.name }}</div>
+                                            <small class="text-muted">{{ app.jobseeker.email }}</small>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>
+                                    <a href="{{ url_for('main.job_detail', job_id=app.job.id) }}" target="_blank" class="text-decoration-none">
+                                        {{ app.job.title }}
+                                    </a>
+                                </td>
+                                <td>
+                                    <span class="badge {% if app.status == 'pending' %}bg-warning-subtle text-warning{% elif app.status == 'reviewed' %}bg-info-subtle text-info{% elif app.status == 'accepted' %}bg-success-subtle text-success{% else %}bg-danger-subtle text-danger{% endif %}">
+                                        {{ app.get_status_display() }}
+                                    </span>
+                                </td>
+                                <td>
+                                    <span class="text-muted">
+                                        <i class="bi bi-calendar me-1"></i>{{ app.applied_at.strftime('%Y-%m-%d') }}
+                                    </span>
+                                </td>
+                                <td>
+                                    <div class="btn-group btn-group-sm">
+                                        {% if app.status == 'pending' %}
+                                            <form action="{{ url_for('employer.review_application', app_id=app.id) }}" method="POST" style="display:inline;">
+                                                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+                                                <button type="submit" class="btn btn-outline-info" title="Mark as Reviewed">
+                                                    <i class="bi bi-eye"></i>
+                                                </button>
+                                            </form>
+                                        {% endif %}
+                                        {% if app.status != 'accepted' %}
+                                            <form action="{{ url_for('employer.accept_application', app_id=app.id) }}" method="POST" style="display:inline;">
+                                                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+                                                <button type="submit" class="btn btn-outline-success" title="Accept" onclick="return confirm('Are you sure you want to accept this application?')">
+                                                    <i class="bi bi-check"></i>
+                                                </button>
+                                            </form>
+                                        {% endif %}
+                                        {% if app.status != 'rejected' %}
+                                            <form action="{{ url_for('employer.reject_application', app_id=app.id) }}" method="POST" style="display:inline;">
+                                                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+                                                <button type="submit" class="btn btn-outline-danger" title="Reject" onclick="return confirm('Are you sure you want to reject this application?')">
+                                                    <i class="bi bi-x"></i>
+                                                </button>
+                                            </form>
+                                        {% endif %}
+                                    </div>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            
+            <!-- Pagination -->
+            {% if applications.pages > 1 %}
+                <div class="p-3 border-top">
+                    <nav>
+                        <ul class="pagination justify-content-center mb-0">
+                            {% if applications.has_prev %}
+                                <li class="page-item">
+                                    <a class="page-link" href="{{ url_for('employer.applications', page=applications.prev_num, **request.args) }}">Previous</a>
+                                </li>
+                            {% else %}
+                                <li class="page-item disabled"><span class="page-link">Previous</span></li>
+                            {% endif %}
+                            
+                            {% for page_num in applications.iter_pages() %}
+                                {% if page_num %}
+                                    {% if page_num == applications.page %}
+                                        <li class="page-item active"><span class="page-link">{{ page_num }}</span></li>
+                                    {% else %}
+                                        <li class="page-item">
+                                            <a class="page-link" href="{{ url_for('employer.applications', page=page_num, **request.args) }}">{{ page_num }}</a>
+                                        </li>
+                                    {% endif %}
+                                {% endif %}
+                            {% endfor %}
+                            
+                            {% if applications.has_next %}
+                                <li class="page-item">
+                                    <a class="page-link" href="{{ url_for('employer.applications', page=applications.next_num, **request.args) }}">Next</a>
+                                </li>
+                            {% else %}
+                                <li class="page-item disabled"><span class="page-link">Next</span></li>
+                            {% endif %}
+                        </ul>
+                    </nav>
+                </div>
+            {% endif %}
+        {% else %}
+            <div class="text-center py-5">
+                <i class="bi bi-inbox display-1 text-muted"></i>
+                <h4 class="mt-3">No Applications Found</h4>
+                <p class="text-muted">No applications match your criteria.</p>
+            </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}
+

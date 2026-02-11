@@ -1,0 +1,265 @@
+{% extends "base.html" %}
+
+{% block content %}
+<!-- Flash Messages for Success -->
+{% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+        {% for category, message in messages %}
+            {% if category == 'success' %}
+                <div class="alert alert-success alert-dismissible fade show" role="alert">
+                    <i class="bi bi-check-circle"></i>
+                    {{ message }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            {% endif %}
+        {% endfor %}
+    {% endif %}
+{% endwith %}
+
+<!-- Page Header -->
+<div class="page-header section-spacing">
+    <h1><i class="bi bi-speedometer2"></i>Admin Dashboard</h1>
+    <div class="page-actions">
+        <a href="?period=daily" class="btn btn-sm btn-outline-secondary {% if period == 'daily' %}active{% endif %}">Daily</a>
+        <a href="?period=weekly" class="btn btn-sm btn-outline-secondary {% if period == 'weekly' %}active{% endif %}">Weekly</a>
+        <a href="?period=monthly" class="btn btn-sm btn-outline-secondary {% if period == 'monthly' %}active{% endif %}">Monthly</a>
+        <a href="?period=yearly" class="btn btn-sm btn-outline-secondary {% if period == 'yearly' %}active{% endif %}">Yearly</a>
+    </div>
+</div>
+
+<!-- Statistics Cards Row 1 -->
+<div class="row g-4 section-spacing-lg">
+    <div class="col-md-3">
+        <div class="stat-card">
+            <div class="stat-icon primary">
+                <i class="bi bi-people-fill"></i>
+            </div>
+            <div class="stat-value">{{ total_users }}</div>
+            <div class="stat-label">Total Users</div>
+            <div class="stat-trend up">
+                <i class="bi bi-arrow-up"></i>
+                <span>{{ new_employers + new_jobseekers }} new this period</span>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="stat-card">
+            <div class="stat-icon success">
+                <i class="bi bi-building-fill"></i>
+            </div>
+            <div class="stat-value">{{ total_employers }}</div>
+            <div class="stat-label">Employers</div>
+            <div class="stat-trend up">
+                <i class="bi bi-arrow-up"></i>
+                <span>{{ new_employers }} new</span>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="stat-card">
+            <div class="stat-icon info">
+                <i class="bi bi-person-badge-fill"></i>
+            </div>
+            <div class="stat-value">{{ total_jobseekers }}</div>
+            <div class="stat-label">Job Seekers</div>
+            <div class="stat-trend up">
+                <i class="bi bi-arrow-up"></i>
+                <span>{{ new_jobseekers }} new</span>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="stat-card">
+            <div class="stat-icon warning">
+                <i class="bi bi-briefcase-fill"></i>
+            </div>
+            <div class="stat-value">{{ total_jobs }}</div>
+            <div class="stat-label">Total Jobs</div>
+            <div class="stat-trend up">
+                <i class="bi bi-arrow-up"></i>
+                <span>{{ new_jobs }} new</span>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Statistics Cards Row 2 -->
+<div class="row g-4 section-spacing-lg">
+    <div class="col-md-3">
+        <div class="stat-card">
+            <div class="stat-icon secondary">
+                <i class="bi bi-file-earmark-text-fill"></i>
+            </div>
+            <div class="stat-value">{{ total_applications }}</div>
+            <div class="stat-label">Applications</div>
+            <div class="stat-trend up">
+                <i class="bi bi-arrow-up"></i>
+                <span>{{ new_applications }} new</span>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="stat-card">
+            <div class="stat-icon success">
+                <i class="bi bi-check-circle-fill"></i>
+            </div>
+            <div class="stat-value">{{ active_jobs }}</div>
+            <div class="stat-label">Active Jobs</div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="stat-card">
+            <div class="stat-icon danger">
+                <i class="bi bi-x-circle-fill"></i>
+            </div>
+            <div class="stat-value">{{ closed_jobs }}</div>
+            <div class="stat-label">Closed Jobs</div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="stat-card">
+            <div class="stat-icon warning">
+                <i class="bi bi-clock-fill"></i>
+            </div>
+            <div class="stat-value">{{ pending_apps }}</div>
+            <div class="stat-label">Pending Applications</div>
+        </div>
+    </div>
+</div>
+
+<!-- Recent Activity Section -->
+<div class="row section-spacing-lg">
+    <!-- Recent Users -->
+    <div class="col-lg-6">
+        <div class="dashboard-card h-100">
+            <div class="card-header">
+                <h5><i class="bi bi-people"></i>Recent Users</h5>
+                <div>
+                    <a href="{{ url_for('admin.employers') }}" class="btn btn-sm btn-outline-primary">Employers</a>
+                    <a href="{{ url_for('admin.jobseekers') }}" class="btn btn-sm btn-outline-info">Jobseekers</a>
+                </div>
+            </div>
+            <div class="card-body">
+                {% if recent_users %}
+                    <div class="table-responsive">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Email</th>
+                                    <th>Role</th>
+                                    <th>Joined</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for user in recent_users %}
+                                    <tr>
+                                        <td>{{ user.name }}</td>
+                                        <td>{{ user.email }}</td>
+                                        <td>
+                                            <span class="badge {% if user.role == 'admin' %}bg-primary-subtle text-primary{% elif user.role == 'employer' %}bg-success-subtle text-success{% else %}bg-info-subtle text-info{% endif %}">
+                                                {{ user.get_role_display() }}
+                                            </span>
+                                        </td>
+                                        <td>{{ user.created_at.strftime('%Y-%m-%d') }}</td>
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                {% else %}
+                    <div class="text-center py-5 text-muted empty-state">
+                        <i class="bi bi-inbox display-4"></i>
+                        <p class="mt-2 mb-0">No users found.</p>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+    <!-- Recent Jobs -->
+    <div class="col-lg-6">
+        <div class="dashboard-card h-100">
+            <div class="card-header">
+                <h5><i class="bi bi-briefcase"></i>Recent Jobs</h5>
+                <a href="{{ url_for('admin.jobs') }}" class="btn btn-sm btn-outline-primary">View All</a>
+            </div>
+            <div class="card-body">
+                {% if recent_jobs %}
+                    <div class="table-responsive">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>Title</th>
+                                    <th>Company</th>
+                                    <th>Status</th>
+                                    <th>Posted</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for job in recent_jobs %}
+                                    <tr>
+                                        <td>{{ job.title }}</td>
+                                        <td>{{ job.company_name }}</td>
+                                        <td>
+                                            <span class="badge {% if job.status == 'active' %}bg-success-subtle text-success{% else %}bg-secondary-subtle text-secondary{% endif %}">
+                                                {{ job.get_status_display() }}
+                                            </span>
+                                        </td>
+                                        <td>{{ job.created_at.strftime('%Y-%m-%d') }}</td>
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                {% else %}
+                    <div class="text-center py-5 text-muted empty-state">
+                        <i class="bi bi-inbox display-4"></i>
+                        <p class="mt-2 mb-0">No jobs found.</p>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Quick Actions -->
+<div class="row">
+    <div class="col-12">
+        <div class="dashboard-card">
+            <div class="card-header">
+                <h5><i class="bi bi-lightning"></i>Quick Actions</h5>
+            </div>
+            <div class="card-body">
+                <div class="row g-3">
+                    <div class="col-md-3">
+                        <a href="{{ url_for('admin.employers') }}" class="btn btn-outline-success w-100 py-3">
+                            <i class="bi bi-people d-block fs-3 mb-2 text-success"></i>
+                            <span class="fw-medium">Manage Employers</span>
+                        </a>
+                    </div>
+                    <div class="col-md-3">
+                        <a href="{{ url_for('admin.jobseekers') }}" class="btn btn-outline-info w-100 py-3">
+                            <i class="bi bi-person-lines-fill d-block fs-3 mb-2 text-info"></i>
+                            <span class="fw-medium">Manage Jobseekers</span>
+                        </a>
+                    </div>
+                    <div class="col-md-3">
+                        <a href="{{ url_for('admin.jobs') }}" class="btn btn-outline-warning w-100 py-3">
+                            <i class="bi bi-list-task d-block fs-3 mb-2 text-warning"></i>
+                            <span class="fw-medium">Manage All Jobs</span>
+                        </a>
+                    </div>
+                    <div class="col-md-3">
+                        <a href="{{ url_for('admin.applications') }}" class="btn btn-outline-secondary w-100 py-3">
+                            <i class="bi bi-file-earmark-text d-block fs-3 mb-2 text-secondary"></i>
+                            <span class="fw-medium">View Applications</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+

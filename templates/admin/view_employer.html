@@ -1,0 +1,150 @@
+{% extends "base.html" %}
+
+{% block content %}
+<!-- Page Header -->
+<div class="page-header">
+    <h1><i class="bi bi-building"></i>Employer Details</h1>
+    <div class="page-actions">
+        <a href="{{ url_for('admin.employers') }}" class="btn btn-outline-secondary">
+            <i class="bi bi-arrow-left me-1"></i>Back to Employers
+        </a>
+    </div>
+</div>
+
+<div class="row g-4">
+    <!-- Employer Info -->
+    <div class="col-lg-4">
+        <div class="dashboard-card">
+            <div class="card-header">
+                <h5><i class="bi bi-person me-2"></i>Employer Information</h5>
+            </div>
+            <div class="card-body">
+                <div class="d-flex align-items-center mb-4">
+                    <div class="avatar bg-primary-subtle text-primary me-3" style="width: 64px; height: 64px; font-size: 1.25rem;">
+                        {{ employer.name[:2].upper() }}
+                    </div>
+                    <div>
+                        <div class="fw-medium fs-5">{{ employer.name }}</div>
+                        <span class="badge bg-success-subtle text-success mt-1">
+                            <i class="bi bi-check-circle me-1"></i>Verified
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="mb-3">
+                    <div class="text-muted small mb-1">Email Address</div>
+                    <div class="fw-medium">{{ employer.email }}</div>
+                </div>
+                
+                <div class="mb-3">
+                    <div class="text-muted small mb-1">Role</div>
+                    <div class="fw-medium">{{ employer.get_role_display() }}</div>
+                </div>
+                
+                <div class="mb-3">
+                    <div class="text-muted small mb-1">Member Since</div>
+                    <div class="fw-medium">{{ employer.created_at.strftime('%B %d, %Y') }}</div>
+                </div>
+                
+                <div class="mb-0">
+                    <div class="text-muted small mb-1">Total Jobs Posted</div>
+                    <div class="fw-medium">{{ employer.jobs|length }} jobs</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Employer Jobs -->
+    <div class="col-lg-8">
+        <div class="dashboard-card">
+            <div class="card-header">
+                <h5><i class="bi bi-briefcase me-2"></i>Jobs Posted by {{ employer.name }}</h5>
+            </div>
+            <div class="card-body p-0">
+                {% if jobs %}
+                    <div class="table-responsive">
+                        <table class="table mb-0">
+                            <thead>
+                                <tr>
+                                    <th>Job Title</th>
+                                    <th>Location</th>
+                                    <th>Status</th>
+                                    <th>Applications</th>
+                                    <th>Posted</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for job in jobs %}
+                                    <tr>
+                                        <td>
+                                            <a href="{{ url_for('main.job_detail', job_id=job.id) }}" target="_blank" class="text-decoration-none">
+                                                {{ job.title }}
+                                            </a>
+                                        </td>
+                                        <td>{{ job.location }}</td>
+                                        <td>
+                                            <span class="badge {% if job.status == 'active' %}bg-success-subtle text-success{% else %}bg-secondary-subtle text-secondary{% endif %}">
+                                                {{ job.get_status_display() }}
+                                            </span>
+                                        </td>
+                                        <td>{{ job.applications|length }}</td>
+                                        <td>{{ job.created_at.strftime('%Y-%m-%d') }}</td>
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                {% else %}
+                    <div class="text-center py-5 text-muted">
+                        <i class="bi bi-inbox display-4"></i>
+                        <p class="mt-2 mb-0">No jobs posted yet.</p>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+
+        <!-- Applications to Employer Jobs -->
+        <div class="dashboard-card mt-4">
+            <div class="card-header">
+                <h5><i class="bi bi-file-earmark-text me-2"></i>Applications Received ({{ applications|length }})</h5>
+            </div>
+            <div class="card-body p-0">
+                {% if applications %}
+                    <div class="table-responsive">
+                        <table class="table mb-0">
+                            <thead>
+                                <tr>
+                                    <th>Applicant</th>
+                                    <th>Job</th>
+                                    <th>Status</th>
+                                    <th>Applied Date</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for app in applications %}
+                                    <tr>
+                                        <td>{{ app.jobseeker.name }}</td>
+                                        <td>{{ app.job.title }}</td>
+                                        <td>
+                                            <span class="badge {% if app.status == 'pending' %}bg-warning-subtle text-warning{% elif app.status == 'reviewed' %}bg-info-subtle text-info{% elif app.status == 'accepted' %}bg-success-subtle text-success{% else %}bg-danger-subtle text-danger{% endif %}">
+                                                {{ app.get_status_display() }}
+                                            </span>
+                                        </td>
+                                        <td>{{ app.applied_at.strftime('%Y-%m-%d') }}</td>
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                {% else %}
+                    <div class="text-center py-5 text-muted">
+                        <i class="bi bi-inbox display-4"></i>
+                        <p class="mt-2 mb-0">No applications received yet.</p>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+

@@ -1,0 +1,32 @@
+<!-- Employer Sidebar -->
+<li class="nav-item">
+    <a class="nav-link {% if request.endpoint.startswith('employer.dashboard') %}active{% endif %}" href="{{ url_for('employer.dashboard') }}">
+        <i class="bi bi-speedometer2"></i>
+        <span class="sidebar-label">Dashboard</span>
+    </a>
+</li>
+<li class="nav-item">
+    <a class="nav-link {% if request.endpoint.startswith('employer.jobs') %}active{% endif %}" href="{{ url_for('employer.jobs') }}">
+        <i class="bi bi-briefcase"></i>
+        <span class="sidebar-label">My Jobs</span>
+    </a>
+</li>
+<li class="nav-item">
+    <a class="nav-link {% if 'new_job' in request.endpoint or 'edit_job' in request.endpoint %}active{% endif %}" href="{{ url_for('employer.new_job') }}">
+        <i class="bi bi-plus-circle"></i>
+        <span class="sidebar-label">Post New Job</span>
+    </a>
+</li>
+<li class="nav-item">
+    <a class="nav-link {% if request.endpoint.startswith('employer.applications') %}active{% endif %}" href="{{ url_for('employer.applications') }}">
+        <i class="bi bi-file-earmark-text"></i>
+        <span class="sidebar-label">Applications</span>
+    </a>
+</li>
+<li class="nav-item">
+    <a class="nav-link {% if request.endpoint.startswith('employer.profile') %}active{% endif %}" href="{{ url_for('employer.profile') }}">
+        <i class="bi bi-person-gear"></i>
+        <span class="sidebar-label">Profile</span>
+    </a>
+</li>
+

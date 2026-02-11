@@ -1,0 +1,234 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container">
+    <div class="row">
+        <div class="col-lg-8">
+            <!-- Job Header -->
+            <div class="card shadow-sm mb-4">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-start mb-3">
+                        <div>
+                            <span class="badge bg-{{ 'success' if job.status == 'active' else 'secondary' }} mb-2">
+                                {{ job.get_status_display() }}
+                            </span>
+                            <h1 class="h3 mb-2">{{ job.title }}</h1>
+                            <p class="text-muted mb-0">
+                                <i class="bi bi-building me-1"></i>{{ job.company_name }}
+                            </p>
+                        </div>
+                        <div class="text-end">
+                            <small class="text-muted d-block">Posted</small>
+                            <strong>{{ job.created_at.strftime('%b %d, %Y') }}</strong>
+                        </div>
+                    </div>
+                    
+                    <hr>
+                    
+                    <!-- Key Details -->
+                    <div class="row mb-4">
+                        <div class="col-md-4 mb-2">
+                            <div class="d-flex align-items-center">
+                                <i class="bi bi-geo-alt-fill text-primary fs-4 me-2"></i>
+                                <div>
+                                    <small class="text-muted d-block">Location</small>
+                                    <strong>{{ job.location }}</strong>
+                                </div>
+                            </div>
+                        </div>
+                        {% if job.salary %}
+                            <div class="col-md-4 mb-2">
+                                <div class="d-flex align-items-center">
+                                    <i class="bi bi-currency-dollar text-primary fs-4 me-2"></i>
+                                    <div>
+                                        <small class="text-muted d-block">Salary</small>
+                                        <strong>{{ job.salary }}</strong>
+                                    </div>
+                                </div>
+                            </div>
+                        {% endif %}
+                        {% if job.job_type %}
+                            <div class="col-md-4 mb-2">
+                                <div class="d-flex align-items-center">
+                                    <i class="bi bi-clock-fill text-primary fs-4 me-2"></i>
+                                    <div>
+                                        <small class="text-muted d-block">Job Type</small>
+                                        <strong>{{ job.job_type }}</strong>
+                                    </div>
+                                </div>
+                            </div>
+                        {% endif %}
+                        {% if job.experience_level %}
+                            <div class="col-md-4 mb-2">
+                                <div class="d-flex align-items-center">
+                                    <i class="bi bi-bar-chart-steps text-primary fs-4 me-2"></i>
+                                    <div>
+                                        <small class="text-muted d-block">Experience</small>
+                                        <strong>{{ job.experience_level }}</strong>
+                                    </div>
+                                </div>
+                            </div>
+                        {% endif %}
+                    </div>
+                    
+                    <!-- Job Description -->
+                    <h5 class="border-bottom pb-2 mb-3">Job Description</h5>
+                    <div class="mb-4">
+                        {{ job.description | replace('\n', '<br>') | safe }}
+                    </div>
+                    
+                    {% if job.company_description %}
+                        <h5 class="border-bottom pb-2 mb-3">About Company</h5>
+                        <div class="mb-4">
+                            {{ job.company_description | replace('\n', '<br>') | safe }}
+                        </div>
+                    {% endif %}
+                    
+                    {% if job.required_skills %}
+                        <h5 class="border-bottom pb-2 mb-3">Required Skills</h5>
+                        <div class="mb-4">
+                            {% for skill in job.required_skills.split(',') %}
+                                <span class="badge bg-light text-dark me-1 mb-1">{{ skill.strip() }}</span>
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+                    
+                    {% if job.benefits %}
+                        <h5 class="border-bottom pb-2 mb-3">Benefits</h5>
+                        <div class="mb-4">
+                            {{ job.benefits | replace('\n', '<br>') | safe }}
+                        </div>
+                    {% endif %}
+                    
+                    {% if job.how_to_apply %}
+                        <h5 class="border-bottom pb-2 mb-3">How to Apply</h5>
+                        <div class="mb-4">
+                            {{ job.how_to_apply | replace('\n', '<br>') | safe }}
+                        </div>
+                    {% endif %}
+                    
+                    {% if job.deadline %}
+                        <div class="alert alert-info">
+                            <i class="bi bi-calendar-event me-2"></i>
+                            <strong>Application Deadline:</strong> {{ job.deadline.strftime('%B %d, %Y') }}
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        
+        <!-- Sidebar -->
+        <div class="col-lg-4">
+            <!-- Apply Card -->
+            <div class="card shadow-sm mb-4">
+                <div class="card-header bg-primary text-white">
+                    <h5 class="mb-0"><i class="bi bi-send me-2"></i>Apply Now</h5>
+                </div>
+                <div class="card-body">
+                    {% if current_user.is_authenticated %}
+                        {% if current_user.is_jobseeker() %}
+                            {% if job.id in applied_job_ids %}
+                                <div class="alert alert-success">
+                                    <i class="bi bi-check-circle me-2"></i>
+                                    You have already applied for this job.
+                                </div>
+                                <a href="{{ url_for('jobseeker.applications') }}" class="btn btn-outline-success w-100">
+                                    View My Applications
+                                </a>
+                            {% else %}
+                                <form method="POST" action="{{ url_for('jobseeker.apply_job', job_id=job.id) }}">
+                                    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+                                    <div class="mb-3">
+                                        <label class="form-label">Cover Letter (Optional)</label>
+                                        <textarea name="cover_letter" class="form-control" rows="4" 
+                                                  placeholder="Tell us why you're a great fit..."></textarea>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label class="form-label">Additional Notes (Optional)</label>
+                                        <textarea name="additional_notes" class="form-control" rows="2" 
+                                                  placeholder="Any additional information..."></textarea>
+                                    </div>
+                                    <button type="submit" class="btn btn-success w-100 btn-lg">
+                                        <i class="bi bi-send me-2"></i>Submit Application
+                                    </button>
+                                </form>
+                            {% endif %}
+                        {% elif current_user.is_employer() or current_user.is_admin() %}
+                            <div class="alert alert-info">
+                                <i class="bi bi-info-circle me-2"></i>
+                                {% if current_user.is_employer() %}
+                                    You can view this job as an employer.
+                                {% else %}
+                                    You are logged in as admin.
+                                {% endif %}
+                            </div>
+                        {% endif %}
+                    {% else %}
+                        <div class="text-center">
+                            <p>Please login to apply for this job.</p>
+                            <a href="{{ url_for('auth.login', next=request.url) }}" class="btn btn-primary w-100 mb-2">
+                                Login to Apply
+                            </a>
+                            <a href="{{ url_for('auth.register', role='jobseeker') }}" class="btn btn-outline-primary w-100">
+                                Create Account
+                            </a>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+            
+            <!-- Job Summary Card -->
+            <div class="card shadow-sm">
+                <div class="card-header">
+                    <h5 class="mb-0"><i class="bi bi-info-circle me-2"></i>Job Summary</h5>
+                </div>
+                <div class="card-body">
+                    <ul class="list-unstyled mb-0">
+                        <li class="mb-2">
+                            <i class="bi bi-building me-2 text-muted"></i>
+                            <strong>Company:</strong> {{ job.company_name }}
+                        </li>
+                        <li class="mb-2">
+                            <i class="bi bi-geo-alt me-2 text-muted"></i>
+                            <strong>Location:</strong> {{ job.location }}
+                        </li>
+                        {% if job.salary %}
+                            <li class="mb-2">
+                                <i class="bi bi-currency-dollar me-2 text-muted"></i>
+                                <strong>Salary:</strong> {{ job.salary }}
+                            </li>
+                        {% endif %}
+                        {% if job.job_type %}
+                            <li class="mb-2">
+                                <i class="bi bi-clock me-2 text-muted"></i>
+                                <strong>Type:</strong> {{ job.job_type }}
+                            </li>
+                        {% endif %}
+                        {% if job.experience_level %}
+                            <li class="mb-2">
+                                <i class="bi bi-bar-chart me-2 text-muted"></i>
+                                <strong>Experience:</strong> {{ job.experience_level }}
+                            </li>
+                        {% endif %}
+                        <li class="mb-2">
+                            <i class="bi bi-calendar me-2 text-muted"></i>
+                            <strong>Posted:</strong> {{ job.created_at.strftime('%B %d, %Y') }}
+                        </li>
+                        {% if job.deadline %}
+                            <li class="mb-2">
+                                <i class="bi bi-calendar-x me-2 text-muted"></i>
+                                <strong>Deadline:</strong> {{ job.deadline.strftime('%B %d, %Y') }}
+                            </li>
+                        {% endif %}
+                        <li>
+                            <i class="bi bi-eye me-2 text-muted"></i>
+                            <strong>Views:</strong> {{ job.views_count }}
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+

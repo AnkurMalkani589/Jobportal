@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container text-center py-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="error-page">
+                <h1 class="display-1 text-muted">{{ error.code if error else 404 }}</h1>
+                <h2 class="mb-4">
+                    {% if error and error.code == 403 %}
+                        <i class="bi bi-shield-lock text-warning me-2"></i>Access Forbidden
+                    {% elif error and error.code == 500 %}
+                        <i class="bi bi-x-circle text-danger me-2"></i>Server Error
+                    {% else %}
+                        <i class="bi bi-exclamation-circle text-warning me-2"></i>Page Not Found
+                    {% endif %}
+                </h2>
+                <p class="lead text-muted mb-4">
+                    {% if error and error.code == 403 %}
+                        You don't have permission to access this page.
+                    {% elif error and error.code == 500 %}
+                        Something went wrong on our end. Please try again later.
+                    {% else %}
+                        The page you're looking for doesn't exist or has been moved.
+                    {% endif %}
+                </p>
+                <div class="d-flex justify-content-center gap-3">
+                    <a href="{{ url_for('main.home') }}" class="btn btn-primary">
+                        <i class="bi bi-house me-2"></i>Go Home
+                    </a>
+                    <button onclick="history.back()" class="btn btn-outline-secondary">
+                        <i class="bi bi-arrow-left me-2"></i>Go Back
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+

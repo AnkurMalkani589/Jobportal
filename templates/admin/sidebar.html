@@ -1,0 +1,32 @@
+<!-- Admin Sidebar -->
+<li class="nav-item">
+    <a class="nav-link {% if request.endpoint.startswith('admin.dashboard') %}active{% endif %}" href="{{ url_for('admin.dashboard') }}">
+        <i class="bi bi-speedometer2"></i>
+        <span class="sidebar-label">Dashboard</span>
+    </a>
+</li>
+<li class="nav-item">
+    <a class="nav-link {% if request.endpoint.startswith('admin.employers') %}active{% endif %}" href="{{ url_for('admin.employers') }}">
+        <i class="bi bi-building"></i>
+        <span class="sidebar-label">Employers</span>
+    </a>
+</li>
+<li class="nav-item">
+    <a class="nav-link {% if request.endpoint.startswith('admin.jobseekers') %}active{% endif %}" href="{{ url_for('admin.jobseekers') }}">
+        <i class="bi bi-people"></i>
+        <span class="sidebar-label">Job Seekers</span>
+    </a>
+</li>
+<li class="nav-item">
+    <a class="nav-link {% if request.endpoint.startswith('admin.jobs') %}active{% endif %}" href="{{ url_for('admin.jobs') }}">
+        <i class="bi bi-briefcase"></i>
+        <span class="sidebar-label">All Jobs</span>
+    </a>
+</li>
+<li class="nav-item">
+    <a class="nav-link {% if request.endpoint.startswith('admin.applications') %}active{% endif %}" href="{{ url_for('admin.applications') }}">
+        <i class="bi bi-file-earmark-text"></i>
+        <span class="sidebar-label">Applications</span>
+    </a>
+</li>
+

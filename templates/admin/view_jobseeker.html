@@ -1,0 +1,166 @@
+{% extends "base.html" %}
+
+{% block content %}
+<!-- Page Header -->
+<div class="page-header">
+    <h1><i class="bi bi-person"></i>Job Seeker Details</h1>
+    <div class="page-actions">
+        <a href="{{ url_for('admin.jobseekers') }}" class="btn btn-outline-secondary">
+            <i class="bi bi-arrow-left me-1"></i>Back to Job Seekers
+        </a>
+    </div>
+</div>
+
+<div class="row g-4">
+    <!-- Job Seeker Info -->
+    <div class="col-lg-4">
+        <div class="dashboard-card">
+            <div class="card-header">
+                <h5><i class="bi bi-person me-2"></i>Job Seeker Information</h5>
+            </div>
+            <div class="card-body">
+                <div class="d-flex align-items-center mb-4">
+                    <div class="avatar bg-info-subtle text-info me-3" style="width: 64px; height: 64px; font-size: 1.25rem;">
+                        {{ jobseeker.name[:2].upper() }}
+                    </div>
+                    <div>
+                        <div class="fw-medium fs-5">{{ jobseeker.name }}</div>
+                        <span class="badge bg-success-subtle text-success mt-1">
+                            <i class="bi bi-check-circle me-1"></i>Verified
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="mb-3">
+                    <div class="text-muted small mb-1">Email Address</div>
+                    <div class="fw-medium">{{ jobseeker.email }}</div>
+                </div>
+                
+                <div class="mb-3">
+                    <div class="text-muted small mb-1">Role</div>
+                    <div class="fw-medium">{{ jobseeker.get_role_display() }}</div>
+                </div>
+                
+                <div class="mb-3">
+                    <div class="text-muted small mb-1">Member Since</div>
+                    <div class="fw-medium">{{ jobseeker.created_at.strftime('%B %d, %Y') }}</div>
+                </div>
+                
+                <div class="mb-0">
+                    <div class="text-muted small mb-1">Total Applications</div>
+                    <div class="fw-medium">{{ applications|length }} applications</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Profile Info -->
+        {% if profile %}
+        <div class="dashboard-card mt-4">
+            <div class="card-header">
+                <h5><i class="bi bi-file-person me-2"></i>Profile Details</h5>
+            </div>
+            <div class="card-body">
+                {% if profile.phone %}
+                <div class="mb-3">
+                    <div class="text-muted small mb-1">Phone</div>
+                    <div class="fw-medium">{{ profile.phone }}</div>
+                </div>
+                {% endif %}
+                
+                {% if profile.address %}
+                <div class="mb-3">
+                    <div class="text-muted small mb-1">Address</div>
+                    <div class="fw-medium">{{ profile.address }}</div>
+                </div>
+                {% endif %}
+                
+                {% if profile.bio %}
+                <div class="mb-3">
+                    <div class="text-muted small mb-1">Bio</div>
+                    <div class="fw-medium">{{ profile.bio }}</div>
+                </div>
+                {% endif %}
+                
+                {% if profile.skills %}
+                <div class="mb-3">
+                    <div class="text-muted small mb-1">Skills</div>
+                    <div class="fw-medium">
+                        {% for skill in profile.skills.split(',') %}
+                            <span class="badge bg-info-subtle text-info me-1">{{ skill.strip() }}</span>
+                        {% endfor %}
+                    </div>
+                </div>
+                {% endif %}
+                
+                {% if profile.linkedin %}
+                <div class="mb-3">
+                    <div class="text-muted small mb-1">LinkedIn</div>
+                    <div class="fw-medium">
+                        <a href="{{ profile.linkedin }}" target="_blank">{{ profile.linkedin }}</a>
+                    </div>
+                </div>
+                {% endif %}
+                
+                {% if profile.github %}
+                <div class="mb-0">
+                    <div class="text-muted small mb-1">GitHub</div>
+                    <div class="fw-medium">
+                        <a href="{{ profile.github }}" target="_blank">{{ profile.github }}</a>
+                    </div>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+        {% endif %}
+    </div>
+
+    <!-- Applications -->
+    <div class="col-lg-8">
+        <div class="dashboard-card">
+            <div class="card-header">
+                <h5><i class="bi bi-file-earmark-text me-2"></i>Application History</h5>
+            </div>
+            <div class="card-body p-0">
+                {% if applications %}
+                    <div class="table-responsive">
+                        <table class="table mb-0">
+                            <thead>
+                                <tr>
+                                    <th>Job</th>
+                                    <th>Company</th>
+                                    <th>Status</th>
+                                    <th>Applied Date</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for app in applications %}
+                                    <tr>
+                                        <td>
+                                            <a href="{{ url_for('main.job_detail', job_id=app.job.id) }}" target="_blank" class="text-decoration-none">
+                                                {{ app.job.title }}
+                                            </a>
+                                        </td>
+                                        <td>{{ app.job.company_name }}</td>
+                                        <td>
+                                            <span class="badge {% if app.status == 'pending' %}bg-warning-subtle text-warning{% elif app.status == 'reviewed' %}bg-info-subtle text-info{% elif app.status == 'accepted' %}bg-success-subtle text-success{% else %}bg-danger-subtle text-danger{% endif %}">
+                                                {{ app.get_status_display() }}
+                                            </span>
+                                        </td>
+                                        <td>{{ app.applied_at.strftime('%Y-%m-%d') }}</td>
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                {% else %}
+                    <div class="text-center py-5 text-muted">
+                        <i class="bi bi-inbox display-4"></i>
+                        <p class="mt-2 mb-0">No applications yet.</p>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+

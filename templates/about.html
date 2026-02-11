@@ -1,0 +1,121 @@
+{% extends "base.html" %}
+
+{% block content %}
+<!-- Page Header -->
+<div class="page-header bg-primary text-white py-5 mb-4">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-md-8">
+                <h1 class="fw-bold mb-2"><i class="bi bi-info-circle me-2"></i>About JobPortal</h1>
+                <p class="lead mb-0">Connecting talented professionals with their dream careers</p>
+            </div>
+            <div class="col-md-4 text-md-end">
+                <i class="bi bi-briefcase-fill display-1 opacity-25"></i>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Mission Section -->
+<div class="container mb-5">
+    <div class="row">
+        <div class="col-lg-8 mx-auto">
+            <div class="card shadow-sm mb-4">
+                <div class="card-body p-5">
+                    <h2 class="card-title text-center mb-4">Our Mission</h2>
+                    <p class="card-text lead text-center">
+                        To simplify the job search process and help employers find the perfect candidates for their organizations.
+                    </p>
+                    <hr class="my-4">
+                    <p class="card-text">
+                        JobPortal was founded with a simple vision: to create a platform where job seekers and employers can connect seamlessly. We understand that finding the right job or the right candidate can be challenging, and we're here to make that process as smooth as possible.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Features Section -->
+<div class="container mb-5">
+    <h2 class="text-center mb-4">Why Choose JobPortal?</h2>
+    <div class="row g-4">
+        <div class="col-md-4">
+            <div class="card h-100 shadow-sm">
+                <div class="card-body text-center">
+                    <div class="bg-primary bg-opacity-10 rounded-circle d-inline-flex align-items-center justify-content-center mb-3" style="width: 80px; height: 80px;">
+                        <i class="bi bi-search text-primary fs-2"></i>
+                    </div>
+                    <h5>Easy Job Search</h5>
+                    <p class="text-muted">Find jobs that match your skills and preferences with our advanced search and filtering options.</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card h-100 shadow-sm">
+                <div class="card-body text-center">
+                    <div class="bg-success bg-opacity-10 rounded-circle d-inline-flex align-items-center justify-content-center mb-3" style="width: 80px; height: 80px;">
+                        <i class="bi bi-lightning text-success fs-2"></i>
+                    </div>
+                    <h5>Quick Applications</h5>
+                    <p class="text-muted">Apply to multiple jobs with just a few clicks. Our streamlined process saves you time.</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card h-100 shadow-sm">
+                <div class="card-body text-center">
+                    <div class="bg-info bg-opacity-10 rounded-circle d-inline-flex align-items-center justify-content-center mb-3" style="width: 80px; height: 80px;">
+                        <i class="bi bi-shield-check text-info fs-2"></i>
+                    </div>
+                    <h5>Secure & Reliable</h5>
+                    <p class="text-muted">Your data is safe with us. We use industry-standard security measures to protect your information.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Stats Section -->
+<div class="bg-light py-5 mb-5">
+    <div class="container">
+        <div class="row g-4 text-center">
+            <div class="col-6 col-md-3">
+                <div class="display-4 fw-bold text-primary">{{ total_jobs }}</div>
+                <p class="text-muted mb-0">Active Job Listings</p>
+            </div>
+            <div class="col-6 col-md-3">
+                <div class="display-4 fw-bold text-success">{{ total_applications }}</div>
+                <p class="text-muted mb-0">Applications Submitted</p>
+            </div>
+            <div class="col-6 col-md-3">
+                <div class="display-4 fw-bold text-info">{{ total_employers|default('100+') }}</div>
+                <p class="text-muted mb-0">Partner Companies</p>
+            </div>
+            <div class="col-6 col-md-3">
+                <div class="display-4 fw-bold text-warning">{{ total_jobseekers|default('1000+') }}</div>
+                <p class="text-muted mb-0">Job Seekers</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- CTA Section -->
+<div class="container mb-5">
+    <div class="card bg-primary text-white">
+        <div class="card-body p-5 text-center">
+            <h3 class="card-title mb-3">Ready to Get Started?</h3>
+            <p class="card-text mb-4">Join thousands of job seekers and employers on JobPortal today.</p>
+            <div class="d-flex justify-content-center gap-3">
+                <a href="{{ url_for('auth.register', role='jobseeker') }}" class="btn btn-light btn-lg">
+                    <i class="bi bi-search me-2"></i>Find Jobs
+                </a>
+                <a href="{{ url_for('auth.register', role='employer') }}" class="btn btn-outline-light btn-lg">
+                    <i class="bi bi-briefcase me-2"></i>Post Jobs
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+

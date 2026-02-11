@@ -1,0 +1,163 @@
+{% extends "base.html" %}
+
+{% block content %}
+<!-- Page Header -->
+<div class="page-header">
+    <h1>
+        <i class="bi bi-{% if job %}pencil{% else %}plus-circle{% endif %}"></i>
+        {{ 'Edit Job' if job else 'Post New Job' }}
+    </h1>
+    <div class="page-actions">
+        <a href="{{ url_for('employer.jobs') }}" class="btn btn-outline-secondary">
+            <i class="bi bi-arrow-left me-1"></i>Back to Jobs
+        </a>
+    </div>
+</div>
+
+<div class="row justify-content-center">
+    <div class="col-lg-8">
+        <div class="dashboard-card">
+            <div class="card-header">
+                <h5><i class="bi bi-briefcase me-2"></i>Job Details</h5>
+            </div>
+            <div class="card-body">
+                <form method="POST">
+                    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+                    <div class="row g-3">
+                        <!-- Job Title -->
+                        <div class="col-12">
+                            <label class="form-label fw-medium">Job Title *</label>
+                            <input type="text" name="title" class="form-control" 
+                                   value="{{ job.title if job else '' }}" 
+                                   placeholder="e.g., Senior Python Developer" required>
+                        </div>
+
+                        <!-- Company Name -->
+                        <div class="col-md-6">
+                            <label class="form-label fw-medium">Company Name *</label>
+                            <input type="text" name="company_name" class="form-control" 
+                                   value="{{ job.company_name if job else '' }}"
+                                   placeholder="Your company name" required>
+                        </div>
+
+                        <!-- Location -->
+                        <div class="col-md-6">
+                            <label class="form-label fw-medium">Location *</label>
+                            <input type="text" name="location" class="form-control" 
+                                   value="{{ job.location if job else '' }}"
+                                   placeholder="e.g., New York, NY or Remote" required>
+                        </div>
+
+                        <!-- Salary -->
+                        <div class="col-md-6">
+                            <label class="form-label fw-medium">Salary Range</label>
+                            <input type="text" name="salary" class="form-control" 
+                                   value="{{ job.salary if job else '' }}"
+                                   placeholder="e.g., $80,000 - $120,000 per year">
+                        </div>
+
+                        <!-- Job Type -->
+                        <div class="col-md-6">
+                            <label class="form-label fw-medium">Job Type</label>
+                            <select name="job_type" class="form-select">
+                                <option value="">Select job type</option>
+                                <option value="Full-time" {% if job and job.job_type == 'Full-time' %}selected{% endif %}>Full-time</option>
+                                <option value="Part-time" {% if job and job.job_type == 'Part-time' %}selected{% endif %}>Part-time</option>
+                                <option value="Contract" {% if job and job.job_type == 'Contract' %}selected{% endif %}>Contract</option>
+                                <option value="Internship" {% if job and job.job_type == 'Internship' %}selected{% endif %}>Internship</option>
+                                <option value="Remote" {% if job and job.job_type == 'Remote' %}selected{% endif %}>Remote</option>
+                            </select>
+                        </div>
+
+                        <!-- Experience Level -->
+                        <div class="col-md-6">
+                            <label class="form-label fw-medium">Experience Level</label>
+                            <select name="experience_level" class="form-select">
+                                <option value="">Select experience level</option>
+                                <option value="Entry" {% if job and job.experience_level == 'Entry' %}selected{% endif %}>Entry Level</option>
+                                <option value="Mid" {% if job and job.experience_level == 'Mid' %}selected{% endif %}>Mid Level</option>
+                                <option value="Senior" {% if job and job.experience_level == 'Senior' %}selected{% endif %}>Senior Level</option>
+                            </select>
+                        </div>
+
+                        <!-- Application Deadline -->
+                        <div class="col-md-6">
+                            <label class="form-label fw-medium">Application Deadline</label>
+                            <input type="date" name="deadline" class="form-control" 
+                                   value="{{ job.deadline.strftime('%Y-%m-%d') if job and job.deadline else '' }}">
+                        </div>
+
+                        <!-- Job Status -->
+                        <div class="col-md-6">
+                            <label class="form-label fw-medium">Job Status</label>
+                            <select name="status" class="form-select">
+                                <option value="active" {% if not job or job.status == 'active' %}selected{% endif %}>Active</option>
+                                <option value="draft" {% if job and job.status == 'draft' %}selected{% endif %}>Draft</option>
+                                <option value="closed" {% if job and job.status == 'closed' %}selected{% endif %}>Closed</option>
+                            </select>
+                        </div>
+
+                        <!-- Description -->
+                        <div class="col-12">
+                            <label class="form-label fw-medium">Job Description *</label>
+                            <textarea name="description" class="form-control" rows="6" 
+                                      placeholder="Describe the role, responsibilities, and what the candidate will be doing..." required>{{ job.description if job else '' }}</textarea>
+                        </div>
+
+                        <!-- Company Description -->
+                        <div class="col-12">
+                            <label class="form-label fw-medium">Company Description</label>
+                            <textarea name="company_description" class="form-control" rows="3" 
+                                      placeholder="Tell candidates about your company...">{{ job.company_description if job else '' }}</textarea>
+                        </div>
+
+                        <!-- Required Skills -->
+                        <div class="col-12">
+                            <label class="form-label fw-medium">Required Skills (comma-separated)</label>
+                            <input type="text" name="required_skills" class="form-control"
+                                   value="{{ job.required_skills if job else '' }}"
+                                   placeholder="e.g., Python, Django, SQL, JavaScript">
+                        </div>
+
+                        <!-- Benefits -->
+                        <div class="col-12">
+                            <label class="form-label fw-medium">Benefits</label>
+                            <textarea name="benefits" class="form-control" rows="3" 
+                                      placeholder="List the benefits and perks of working at your company...">{{ job.benefits if job else '' }}</textarea>
+                        </div>
+
+                        <!-- How to Apply -->
+                        <div class="col-12">
+                            <label class="form-label fw-medium">How to Apply</label>
+                            <textarea name="how_to_apply" class="form-control" rows="2" 
+                                      placeholder="Instructions for candidates on how to apply...">{{ job.how_to_apply if job else '' }}</textarea>
+                        </div>
+
+                        <!-- Application Email -->
+                        <div class="col-12">
+                            <label class="form-label fw-medium">Application Email</label>
+                            <input type="email" name="application_email" class="form-control"
+                                   value="{{ job.application_email if job else '' }}"
+                                   placeholder="applications@yourcompany.com">
+                        </div>
+
+                        <!-- Submit Buttons -->
+                        <div class="col-12 mt-4">
+                            <div class="d-flex gap-2">
+                                <button type="submit" class="btn btn-primary">
+                                    <i class="bi bi-check-circle me-2"></i>
+                                    {{ 'Update Job' if job else 'Post Job' }}
+                                </button>
+                                <a href="{{ url_for('employer.jobs') }}" class="btn btn-outline-secondary">
+                                    Cancel
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
