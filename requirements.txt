@@ -23,12 +23,6 @@ Bootstrap-Flask==2.3.3
 # Utilities
 python-dotenv==1.0.0
 
-# For file uploads
-werkzeug
-
-# For date handling
-datetime
-
 # For Production Server
 gunicorn==21.2.0
 
