@@ -142,50 +142,129 @@
             </button>
             
             <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav ms-auto align-items-center">
-                    <li class="nav-item">
-                        <a class="nav-link nav-link-mobile" href="{{ url_for('auth.login') }}">
-                            <i class="bi bi-box-arrow-in-right me-1"></i>Login
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link nav-link-mobile btn-register" href="{{ url_for('auth.register') }}">
-                            <i class="bi bi-person-plus me-1"></i>Register
-                        </a>
-                    </li>
-                </ul>
+                <div class="nav-auth-container">
+                    <a class="nav-btn nav-btn-login" href="{{ url_for('auth.login') }}">
+                        <i class="bi bi-box-arrow-in-right me-1"></i>Login
+                    </a>
+                    <a class="nav-btn nav-btn-register" href="{{ url_for('auth.register') }}">
+                        <i class="bi bi-person-plus me-1"></i>Register
+                    </a>
+                </div>
             </div>
         </div>
     </nav>
     
     <style>
-    /* Mobile navbar button styles - inline for override */
+    /* Navigation Auth Container - Flexbox Layout */
+    .nav-auth-container {
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+        gap: 20px;
+    }
+    
+    /* Navigation Buttons - Uniform Sizing */
+    .nav-btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        padding: 10px 24px;
+        font-size: 14px;
+        font-weight: 500;
+        border-radius: 8px;
+        text-decoration: none;
+        transition: all 0.2s ease;
+        font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    }
+    
+    /* Login Button */
+    .nav-btn-login {
+        background: transparent;
+        color: #ffffff;
+        border: 2px solid rgba(255, 255, 255, 0.3);
+    }
+    
+    .nav-btn-login:hover {
+        background: rgba(255, 255, 255, 0.15);
+        border-color: rgba(255, 255, 255, 0.5);
+        color: #ffffff;
+    }
+    
+    .nav-btn-login:active {
+        background: rgba(255, 255, 255, 0.25);
+    }
+    
+    /* Register Button */
+    .nav-btn-register {
+        background: #ffffff;
+        color: #4f46e5;
+        border: 2px solid #ffffff;
+    }
+    
+    .nav-btn-register:hover {
+        background: #f8f9fa;
+        border-color: #f8f9fa;
+        color: #4338ca;
+    }
+    
+    .nav-btn-register:active {
+        background: #e9ecef;
+        color: #4338ca;
+    }
+    
+    /* Mobile Styles */
     @media (max-width: 991.98px) {
-        .navbar-dark .navbar-nav .nav-link-mobile {
-            color: #4f46e5 !important;
+        .nav-auth-container {
+            flex-direction: column;
+            gap: 12px;
+            width: 100%;
+            padding: 16px 0;
+        }
+        
+        .nav-btn {
+            width: 100%;
+            max-width: 300px;
+            padding: 14px 24px;
+            font-size: 15px;
+        }
+        
+        .nav-btn-login {
             background: #ffffff;
-            border: 1px solid #e2e8f0;
-            border-radius: 6px;
-            margin-bottom: 8px;
-            padding: 12px 16px !important;
-            font-weight: 500;
+            color: #4f46e5;
+            border: 2px solid #4f46e5;
         }
         
-        .navbar-dark .navbar-nav .nav-link-mobile:active {
-            background: #eef2ff !important;
-            color: #4f46e5 !important;
+        .nav-btn-login:hover,
+        .nav-btn-login:active {
+            background: #4f46e5;
+            color: #ffffff;
+            border-color: #4f46e5;
         }
         
-        .navbar-dark .navbar-nav .btn-register {
-            background: #ffffff !important;
-            color: #4f46e5 !important;
-            border: 2px solid #4f46e5 !important;
-            font-weight: 600;
+        .nav-btn-register {
+            background: #ffffff;
+            color: #4f46e5;
+            border: 2px solid #4f46e5;
         }
         
-        .navbar-dark .navbar-nav .btn-register:active {
-            background: #4f46e5 !important;
-            color: #ffffff !important;
+        .nav-btn-register:hover,
+        .nav-btn-register:active {
+            background: #4f46e5;
+            color: #ffffff;
+            border-color: #4f46e5;
+        }
+    }
+    
+    /* Small Mobile */
+    @media (max-width: 575.98px) {
+        .nav-auth-container {
+            gap: 10px;
+            padding: 12px 0;
+        }
+        
+        .nav-btn {
+            padding: 12px 20px;
+            font-size: 14px;
         }
     }
     </style>
