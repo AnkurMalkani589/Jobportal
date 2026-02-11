@@ -7,8 +7,17 @@ class Config:
 
     SECRET_KEY = os.environ.get('SECRET_KEY') or 'hard-to-guess-string-keep-it-secret'
 
-    SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URL') or \
-        'sqlite:///' + os.path.join(basedir, 'job_portal.db')
+    database_url = os.environ.get('DATABASE_URL')
+    if database_url:
+        # For psycopg3 (psycopg[binary] 3.x), use postgresql+psycopg:// dialect
+        # Convert postgres:// to postgresql+psycopg:// if needed
+        if database_url.startswith('postgres://'):
+            database_url = 'postgresql+psycopg://' + database_url[10:]
+        elif database_url.startswith('postgresql://'):
+            database_url = 'postgresql+psycopg://' + database_url[13:]
+        SQLALCHEMY_DATABASE_URI = database_url
+    else:
+        SQLALCHEMY_DATABASE_URI = 'sqlite:///' + os.path.join(basedir, 'job_portal.db')
 
     SQLALCHEMY_TRACK_MODIFICATIONS = False
 
