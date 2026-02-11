@@ -10,6 +10,9 @@ Flask-Mail==0.9.1
 SQLAlchemy==2.0.31
 Werkzeug==3.0.1
 
+# PostgreSQL driver
+psycopg2-binary==2.9.9
+
 # Forms
 email-validator==2.1.0
 wtforms==3.1.1
