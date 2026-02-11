@@ -57,7 +57,7 @@ def register():
             flash('Email already registered.', 'danger')
             return render_template('register.html', form=form)
         
-        if role not in ['employer', 'jobseeker']:
+        if role not in ['admin','employer', 'jobseeker']:
             flash('Invalid role selected.', 'danger')
             return render_template('register.html', form=form)
         

@@ -25,6 +25,7 @@ class RegistrationForm(FlaskForm):
         EqualTo('password')
     ])
     role = SelectField('I am a', choices=[
+        ('admin', 'Admin'),
         ('jobseeker', 'Job Seeker'),
         ('employer', 'Employer')
     ], validators=[DataRequired()])
