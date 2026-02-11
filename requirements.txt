@@ -26,3 +26,6 @@ werkzeug
 # For date handling
 datetime
 
+# For Production Server
+gunicorn==21.2.0
+
