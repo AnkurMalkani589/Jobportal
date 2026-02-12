@@ -6,8 +6,8 @@
     {% if messages %}
         {% for category, message in messages %}
             {% if category == 'info' %}
-                <div class="alert alert-info alert-dismissible fade show m-0" role="alert">
-                    <i class="bi bi-info-circle"></i>
+                <div class="alert alert-info alert-dismissible fade show mb-0" role="alert">
+                    <i class="bi bi-info-circle me-2"></i>
                     {{ message }}
                     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                 </div>
@@ -105,9 +105,9 @@
     </div>
     <div class="row g-4">
         <div class="col-6 col-md-4 col-lg-2">
-            <a href="{{ url_for('main.jobs', search='Developer') }}" class="text-decoration-none">
+            <a href="{{ url_for('main.jobs', search='Developer') }}" class="text-decoration-none d-block h-100">
                 <div class="category-card card h-100 text-center p-4 border-0 shadow-sm">
-                    <div class="category-icon bg-primary bg-opacity-10 rounded-circle d-inline-flex align-items-center justify-content-center mb-3" style="width: 70px; height: 70px;">
+                    <div class="category-icon bg-primary bg-opacity-10 rounded-circle d-inline-flex align-items-center justify-content-center mb-3">
                         <i class="bi bi-code-slash text-primary fs-2"></i>
                     </div>
                     <h6 class="fw-bold mb-1 text-dark">IT & Software</h6>
@@ -116,9 +116,9 @@
             </a>
         </div>
         <div class="col-6 col-md-4 col-lg-2">
-            <a href="{{ url_for('main.jobs', search='Marketing') }}" class="text-decoration-none">
+            <a href="{{ url_for('main.jobs', search='Marketing') }}" class="text-decoration-none d-block h-100">
                 <div class="category-card card h-100 text-center p-4 border-0 shadow-sm">
-                    <div class="category-icon bg-success bg-opacity-10 rounded-circle d-inline-flex align-items-center justify-content-center mb-3" style="width: 70px; height: 70px;">
+                    <div class="category-icon bg-success bg-opacity-10 rounded-circle d-inline-flex align-items-center justify-content-center mb-3">
                         <i class="bi bi-megaphone text-success fs-2"></i>
                     </div>
                     <h6 class="fw-bold mb-1 text-dark">Marketing</h6>
@@ -127,9 +127,9 @@
             </a>
         </div>
         <div class="col-6 col-md-4 col-lg-2">
-            <a href="{{ url_for('main.jobs', search='Sales') }}" class="text-decoration-none">
+            <a href="{{ url_for('main.jobs', search='Sales') }}" class="text-decoration-none d-block h-100">
                 <div class="category-card card h-100 text-center p-4 border-0 shadow-sm">
-                    <div class="category-icon bg-warning bg-opacity-10 rounded-circle d-inline-flex align-items-center justify-content-center mb-3" style="width: 70px; height: 70px;">
+                    <div class="category-icon bg-warning bg-opacity-10 rounded-circle d-inline-flex align-items-center justify-content-center mb-3">
                         <i class="bi bi-currency-dollar text-warning fs-2"></i>
                     </div>
                     <h6 class="fw-bold mb-1 text-dark">Sales</h6>
@@ -138,9 +138,9 @@
             </a>
         </div>
         <div class="col-6 col-md-4 col-lg-2">
-            <a href="{{ url_for('main.jobs', search='Designer') }}" class="text-decoration-none">
+            <a href="{{ url_for('main.jobs', search='Designer') }}" class="text-decoration-none d-block h-100">
                 <div class="category-card card h-100 text-center p-4 border-0 shadow-sm">
-                    <div class="category-icon bg-danger bg-opacity-10 rounded-circle d-inline-flex align-items-center justify-content-center mb-3" style="width: 70px; height: 70px;">
+                    <div class="category-icon bg-danger bg-opacity-10 rounded-circle d-inline-flex align-items-center justify-content-center mb-3">
                         <i class="bi bi-palette text-danger fs-2"></i>
                     </div>
                     <h6 class="fw-bold mb-1 text-dark">Design</h6>
@@ -149,9 +149,9 @@
             </a>
         </div>
         <div class="col-6 col-md-4 col-lg-2">
-            <a href="{{ url_for('main.jobs', search='Finance') }}" class="text-decoration-none">
+            <a href="{{ url_for('main.jobs', search='Finance') }}" class="text-decoration-none d-block h-100">
                 <div class="category-card card h-100 text-center p-4 border-0 shadow-sm">
-                    <div class="category-icon bg-info bg-opacity-10 rounded-circle d-inline-flex align-items-center justify-content-center mb-3" style="width: 70px; height: 70px;">
+                    <div class="category-icon bg-info bg-opacity-10 rounded-circle d-inline-flex align-items-center justify-content-center mb-3">
                         <i class="bi bi-bank text-info fs-2"></i>
                     </div>
                     <h6 class="fw-bold mb-1 text-dark">Finance</h6>
@@ -160,9 +160,9 @@
             </a>
         </div>
         <div class="col-6 col-md-4 col-lg-2">
-            <a href="{{ url_for('main.jobs') }}" class="text-decoration-none">
+            <a href="{{ url_for('main.jobs') }}" class="text-decoration-none d-block h-100">
                 <div class="category-card card h-100 text-center p-4 border-0 shadow-sm">
-                    <div class="category-icon bg-secondary bg-opacity-10 rounded-circle d-inline-flex align-items-center justify-content-center mb-3" style="width: 70px; height: 70px;">
+                    <div class="category-icon bg-secondary bg-opacity-10 rounded-circle d-inline-flex align-items-center justify-content-center mb-3">
                         <i class="bi bi-three-dots text-secondary fs-2"></i>
                     </div>
                     <h6 class="fw-bold mb-1 text-dark">View All</h6>
@@ -234,8 +234,8 @@
         </div>
     {% else %}
         <div class="text-center py-5 empty-state">
-            <div class="bg-primary bg-opacity-10 rounded-circle d-inline-flex align-items-center justify-content-center mb-4" style="width: 100px; height: 100px;">
-                <i class="bi bi-briefcase text-primary" style="font-size: 3rem;"></i>
+            <div class="bg-primary bg-opacity-10 rounded-circle d-inline-flex align-items-center justify-content-center mb-4 empty-state-icon">
+                <i class="bi bi-briefcase text-primary"></i>
             </div>
             <h4 class="mb-3">No Jobs Available Yet</h4>
             <p class="text-muted mb-4">Be the first to post a job and start hiring!</p>
@@ -256,7 +256,7 @@
         <div class="row g-4 justify-content-center">
             <div class="col-6 col-md-4 col-lg-2">
                 <div class="card h-100 shadow-sm border-0 text-center p-3 company-card">
-                    <div class="company-logo bg-primary bg-opacity-10 rounded-3 d-flex align-items-center justify-content-center mx-auto mb-3" style="width: 70px; height: 70px;">
+                    <div class="company-logo bg-primary bg-opacity-10 rounded-3 d-flex align-items-center justify-content-center mx-auto mb-3">
                         <i class="bi bi-google text-primary fs-3"></i>
                     </div>
                     <h6 class="fw-bold mb-1">Tech Giants</h6>
@@ -265,7 +265,7 @@
             </div>
             <div class="col-6 col-md-4 col-lg-2">
                 <div class="card h-100 shadow-sm border-0 text-center p-3 company-card">
-                    <div class="company-logo bg-success bg-opacity-10 rounded-3 d-flex align-items-center justify-content-center mx-auto mb-3" style="width: 70px; height: 70px;">
+                    <div class="company-logo bg-success bg-opacity-10 rounded-3 d-flex align-items-center justify-content-center mx-auto mb-3">
                         <i class="bi bi-building text-success fs-3"></i>
                     </div>
                     <h6 class="fw-bold mb-1">Startups</h6>
@@ -274,7 +274,7 @@
             </div>
             <div class="col-6 col-md-4 col-lg-2">
                 <div class="card h-100 shadow-sm border-0 text-center p-3 company-card">
-                    <div class="company-logo bg-warning bg-opacity-10 rounded-3 d-flex align-items-center justify-content-center mx-auto mb-3" style="width: 70px; height: 70px;">
+                    <div class="company-logo bg-warning bg-opacity-10 rounded-3 d-flex align-items-center justify-content-center mx-auto mb-3">
                         <i class="bi bi-bank text-warning fs-3"></i>
                     </div>
                     <h6 class="fw-bold mb-1">Finance</h6>
@@ -283,7 +283,7 @@
             </div>
             <div class="col-6 col-md-4 col-lg-2">
                 <div class="card h-100 shadow-sm border-0 text-center p-3 company-card">
-                    <div class="company-logo bg-info bg-opacity-10 rounded-3 d-flex align-items-center justify-content-center mx-auto mb-3" style="width: 70px; height: 70px;">
+                    <div class="company-logo bg-info bg-opacity-10 rounded-3 d-flex align-items-center justify-content-center mx-auto mb-3">
                         <i class="bi bi-hospital text-info fs-3"></i>
                     </div>
                     <h6 class="fw-bold mb-1">Healthcare</h6>
@@ -292,7 +292,7 @@
             </div>
             <div class="col-6 col-md-4 col-lg-2">
                 <div class="card h-100 shadow-sm border-0 text-center p-3 company-card">
-                    <div class="company-logo bg-danger bg-opacity-10 rounded-3 d-flex align-items-center justify-content-center mx-auto mb-3" style="width: 70px; height: 70px;">
+                    <div class="company-logo bg-danger bg-opacity-10 rounded-3 d-flex align-items-center justify-content-center mx-auto mb-3">
                         <i class="bi bi-shop text-danger fs-3"></i>
                     </div>
                     <h6 class="fw-bold mb-1">Retail</h6>
@@ -317,8 +317,8 @@
     <div class="row g-4">
         <div class="col-md-4">
             <div class="text-center h-100">
-                <div class="bg-primary bg-opacity-10 rounded-circle d-inline-flex align-items-center justify-content-center mb-4" style="width: 100px; height: 100px;">
-                    <i class="bi bi-person-plus text-primary" style="font-size: 2.5rem;"></i>
+                <div class="bg-primary bg-opacity-10 rounded-circle d-inline-flex align-items-center justify-content-center mb-4 how-it-works-icon">
+                    <i class="bi bi-person-plus text-primary"></i>
                 </div>
                 <h4 class="fw-bold mb-3">1. Create Account</h4>
                 <p class="text-muted">Sign up as a job seeker or employer in minutes. It's free and easy to get started.</p>
@@ -326,8 +326,8 @@
         </div>
         <div class="col-md-4">
             <div class="text-center h-100">
-                <div class="bg-success bg-opacity-10 rounded-circle d-inline-flex align-items-center justify-content-center mb-4" style="width: 100px; height: 100px;">
-                    <i class="bi bi-search text-success" style="font-size: 2.5rem;"></i>
+                <div class="bg-success bg-opacity-10 rounded-circle d-inline-flex align-items-center justify-content-center mb-4 how-it-works-icon">
+                    <i class="bi bi-search text-success"></i>
                 </div>
                 <h4 class="fw-bold mb-3">2. Search & Apply</h4>
                 <p class="text-muted">Browse thousands of job listings and submit your applications with just a few clicks.</p>
@@ -335,8 +335,8 @@
         </div>
         <div class="col-md-4">
             <div class="text-center h-100">
-                <div class="bg-info bg-opacity-10 rounded-circle d-inline-flex align-items-center justify-content-center mb-4" style="width: 100px; height: 100px;">
-                    <i class="bi bi-check-circle text-info" style="font-size: 2.5rem;"></i>
+                <div class="bg-info bg-opacity-10 rounded-circle d-inline-flex align-items-center justify-content-center mb-4 how-it-works-icon">
+                    <i class="bi bi-check-circle text-info"></i>
                 </div>
                 <h4 class="fw-bold mb-3">3. Get Hired</h4>
                 <p class="text-muted">Connect with employers, ace your interviews, and land your dream job.</p>
@@ -379,27 +379,4 @@
     </div>
 </div>
 
-<style>
-.category-card, .company-card {
-    transition: all 0.3s ease;
-}
-.category-card:hover, .company-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 10px 20px rgba(0,0,0,0.1) !important;
-}
-.job-card {
-    transition: all 0.3s ease;
-}
-.job-card:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 15px 30px rgba(0,0,0,0.1) !important;
-}
-.favorite-btn:hover {
-    background-color: var(--primary-color);
-    color: white;
-}
-.hero-section {
-    background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%) !important;
-}
-</style>
 {% endblock %}
