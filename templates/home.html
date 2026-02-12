@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 
-{% block content %}
+{% block auth_content %}
 <!-- Flash Messages for Logout Notification -->
 {% with messages = get_flashed_messages(with_categories=true) %}
     {% if messages %}
