@@ -140,25 +140,134 @@
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
-            
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav ms-auto">
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ url_for('auth.login') }}">
-                            <i class="bi bi-box-arrow-in-right me-1"></i>Login
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link btn btn-light text-primary ms-2" href="{{ url_for('auth.register') }}">
-                            <i class="bi bi-person-plus me-1"></i>Register
-                        </a>
-                    </li>
-                </ul>
+        </div>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <div class="nav-auth-container">
+                <a class="nav-btn nav-btn-login" href="{{ url_for('auth.login') }}">
+                    <i class="bi bi-box-arrow-in-right me-1"></i>Login
+                </a>
+                <a class="nav-btn nav-btn-register" href="{{ url_for('auth.register') }}">
+                    <i class="bi bi-person-plus me-1"></i>Register
+                </a>
             </div>
         </div>
     </nav>
     
-    <!-- Non-authenticated main content wrapper -->
+    <style>
+    /* Navigation Auth Container - Flexbox Layout */
+    .nav-auth-container {
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+        gap: 20px;
+    }
+    
+    /* Navigation Buttons - Uniform Sizing */
+    .nav-btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        padding: 10px 24px;
+        font-size: 14px;
+        font-weight: 500;
+        border-radius: 8px;
+        text-decoration: none;
+        transition: all 0.2s ease;
+        font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    }
+    
+    /* Login Button */
+    .nav-btn-login {
+        background: #ffffff;
+        color: #4f46e5;
+        border: 2px solid rgba(255, 255, 255, 0.3);
+    }
+    
+    .nav-btn-login:hover {
+        background: rgba(255, 255, 255, 0.15);
+        border-color: rgba(255, 255, 255, 0.5);
+        color: #ffffff;
+    }
+    
+    .nav-btn-login:active {
+        background: rgba(255, 255, 255, 0.25);
+    }
+    
+    /* Register Button */
+    .nav-btn-register {
+        background: #ffffff;
+        color: #4f46e5;
+        border: 2px solid #ffffff;
+    }
+    
+    .nav-btn-register:hover {
+        background: #f8f9fa;
+        border-color: #f8f9fa;
+        color: #4338ca;
+    }
+    
+    .nav-btn-register:active {
+        background: #e9ecef;
+        color: #4338ca;
+    }
+    
+    /* Mobile Styles */
+    @media (max-width: 991.98px) {
+        .nav-auth-container {
+            flex-direction: column;
+            gap: 12px;
+            width: 100%;
+            padding: 16px 0;
+        }
+        
+        .nav-btn {
+            width: 100%;
+            max-width: 300px;
+            padding: 14px 24px;
+            font-size: 15px;
+        }
+        
+        .nav-btn-login {
+            background: #ffffff;
+            color: #4f46e5;
+            border: 2px solid #4f46e5;
+        }
+        
+        .nav-btn-login:hover,
+        .nav-btn-login:active {
+            background: #4f46e5;
+            color: #ffffff;
+            border-color: #4f46e5;
+        }
+        
+        .nav-btn-register {
+            background: #ffffff;
+            color: #4f46e5;
+            border: 2px solid #4f46e5;
+        }
+        
+        .nav-btn-register:hover,
+        .nav-btn-register:active {
+            background: #4f46e5;
+            color: #ffffff;
+            border-color: #4f46e5;
+        }
+    }
+    
+    /* Small Mobile */
+    @media (max-width: 575.98px) {
+        .nav-auth-container {
+            gap: 10px;
+            padding: 12px 0;
+        }
+        
+        .nav-btn {
+            padding: 12px 20px;
+            font-size: 14px;
+        }
+    }
+    </style>
+    
     <main class="auth-wrapper">
         {% block auth_content %}{% endblock %}
     </main>
